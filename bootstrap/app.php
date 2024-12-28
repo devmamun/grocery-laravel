@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -40,10 +41,21 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
+        // Validation exceptions
+        $exceptions->render(function (ValidationException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                    'errors' => $e->errors()
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        });
+
         $exceptions->render(function (\Throwable $e, $request) {
             if ($request->is('api/*')) {
-                $status = method_exists($e, 'getStatusCode') 
-                    ? $e->getStatusCode() 
+                $status = method_exists($e, 'getStatusCode')
+                    ? $e->getStatusCode()
                     : Response::HTTP_INTERNAL_SERVER_ERROR;
 
                 return response()->json([
