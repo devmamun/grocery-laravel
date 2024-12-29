@@ -8,12 +8,6 @@
         "framework"
     ],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./shop-pre-order"
-        }
-    ],
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.31",
@@ -27,8 +21,8 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0.1",
-        "mamun/shop-pre-order": "*"
+        "phpunit/phpunit": "^11.0.1"
+
     },
     "autoload": {
         "psr-4": {
@@ -39,10 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
-            "Mamun\\ShopPreOrder\\": "shop-pre-order/src/",
-            "Mamun\\ShopPreOrder\\Database\\Seeders\\": "shop-pre-order/database/seeders/",
-            "Mamun\\ShopPreOrder\\Database\\Factories\\": "shop-pre-order/database/factories/"
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
