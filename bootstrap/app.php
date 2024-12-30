@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -48,6 +49,19 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => $e->getMessage(),
                     'errors' => $e->errors()
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        });
+
+        //Not found exceptions
+        $exceptions->render(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                $modelName = class_basename($e->getPrevious()?->getModel() ?? 'Resource');
+
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $modelName . ' not found.',
+                    'errors' => null
+                ], Response::HTTP_NOT_FOUND);
             }
         });
 
