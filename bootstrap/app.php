@@ -25,7 +25,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     ]
                 ], Response::HTTP_UNAUTHORIZED);
             }
-            return route('login');
         });
     })
     ->withExceptions(function (Exceptions $exceptions) {

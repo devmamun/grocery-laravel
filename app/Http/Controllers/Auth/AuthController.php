@@ -27,36 +27,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get authenticated user details
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function user(Request $request): JsonResponse
-    {
-        try {
-            $user = $request->user('api');
-            
-            if (!$user) {
-                return $this->error(
-                    'Unauthorized access',
-                    Response::HTTP_UNAUTHORIZED
-                );
-            }
-
-            return $this->success(
-                'User details retrieved successfully',
-                ['user' => $user]
-            );
-        } catch (\Exception $e) {
-            return $this->error(
-                'Authentication failed',
-                Response::HTTP_UNAUTHORIZED
-            );
-        }
-    }
-
-    /**
      * Logout the authenticated user
      *
      * @param Request $request
